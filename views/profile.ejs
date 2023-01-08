@@ -178,36 +178,37 @@
                         <th scope="col" class="py-3 px-6">
                             Cargo
                         </th>
-                        <th scope="col" class="py-3 px-6">
+                        <!-- <th scope="col" class="py-3 px-6">
                             Profit
-                        </th>
+                        </th> -->
                         <th scope="col" class="py-3 px-6">
                             
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-  
+                  <% for(var i = 0; i < driverJobs.length; i++) { %>
                         <tr style="background-color:#111111">
                             <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
-                                1
+                                <%= driverJobs[i].id %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                Calais - Duisburg
+                              <%= driverJobs[i].source_city.name %> - <%= driverJobs[i].destination_city.name %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                522 km
+                              <%= driverJobs[i].driven_distance %> km
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                Gummy Bears
+                              <%= driverJobs[i].cargo.name %>
                             </th>
+                            <!-- <th class="py-4 px-6 font-medium text-white">
+                              
+                            </th> -->
                             <th class="py-4 px-6 font-medium text-white">
-                                somehting euros
-                            </th>
-                            <th class="py-4 px-6 font-medium text-white">
-                                <a href="/jobs/1">View</a>
+                                <a href="/jobs/<%= driverJobs[i].id %>">View</a>
                             </th>
                         </tr>
+                  <% } %>
                 </tbody>
             </table>
         </div>

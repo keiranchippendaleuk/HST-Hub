@@ -1,5 +1,5 @@
 const router = require("express").Router();
-require('dotenv').config()
+require("dotenv").config();
 const userSchema = require("../schemas/Users");
 const jobSchema = require("../schemas/Jobs");
 const { Webhook, MessageBuilder } = require("discord-webhook-node");
@@ -7,8 +7,8 @@ const { Webhook, MessageBuilder } = require("discord-webhook-node");
 // Recieve Job, Lookup User, if user exists, add job to DB, calculate points and add points to user, send webhook, status code 200
 
 router.get("/jobs/delivered", async (req, res, next) => {
-  res.send('OK')
-})
+  res.send("OK");
+});
 
 router.post("/jobs/delivered", async (req, res, next) => {
   try {
@@ -36,7 +36,10 @@ router.post("/jobs/delivered", async (req, res, next) => {
         let distance = Math.round(job.distanceDriven);
         let points = Math.round(distance * 1);
 
-        let submittedDate = new Date(job.realtime.end).toLocaleDateString("en-US", { timeZone: 'America/Toronto' });
+        let submittedDate = new Date(job.realtime.end).toLocaleDateString(
+          "en-US",
+          { timeZone: "America/Toronto" }
+        );
 
         await userSchema.findOneAndUpdate(
           { steamID: job.driver.steamID },
@@ -53,12 +56,12 @@ router.post("/jobs/delivered", async (req, res, next) => {
 
         await new jobSchema({
           id: job.jobID,
-          object: 'job',
+          object: "job",
           driver: {
             id: job.driver.userID,
             steam_id: job.driver.steamID,
             username: driver.username,
-            userID: driver.userID
+            userID: driver.userID,
           },
           planned_distance: job.plannedDistance,
           submittedDate: submittedDate,
@@ -73,23 +76,26 @@ router.post("/jobs/delivered", async (req, res, next) => {
           truck: job.truck,
           events: job.events,
           points: points,
-        }).save()
-
-
+        }).save();
 
         // checkDriverRank(driver.userID)
 
-        const hook = new Webhook(process.env.jobwebhook);
+        const hook = new Webhook(
+          `https://discord.com/api/webhooks/1057193833592524870/-V5YfQoprtlMNz6c4bl03mJQvkFWyzERe4llgjGSv1RoO1pdDxF-c_524HNAscMsnEh_`
+        );
 
         const DeliveryEmbed = new MessageBuilder()
           .setTitle(`Job Submitted - #${job.jobID}`)
           .setLink(`https://hub.highspeedtrucking.ca/jobs/${job.jobID}`)
           .addField("From", `${job.source.city.name}`, true)
           .addField("To", `${job.destination.city.name}`, true)
-          .addField("Details", `Distance: ${distance} km\nPoints: ${points}\nSource Company: ${job.source.company.name}\nDestination Company: ${job.destination.company.name}`)
+          .addField(
+            "Details",
+            `Distance: ${distance} km\nPoints: ${points}\nSource Company: ${job.source.company.name}\nDestination Company: ${job.destination.company.name}`
+          );
 
-        hook.setAvatar('https://i.imgur.com/820FceD.png')
-        hook.send(DeliveryEmbed)
+        hook.setAvatar("https://i.imgur.com/820FceD.png");
+        hook.send(DeliveryEmbed);
 
         res.sendStatus(200);
       } else {
@@ -102,101 +108,103 @@ router.post("/jobs/delivered", async (req, res, next) => {
   } catch (err) {}
 });
 
-
 async function checkDriverRank(userID) {
-    const driver = await userSchema.findOne({ userID: userID }) || false;
+  const driver = (await userSchema.findOne({ userID: userID })) || false;
 
-    if (driver) {
-        const driverpoints = driver.points || 0;
-        const ranks = [
+  if (driver) {
+    const driverpoints = driver.points || 0;
+    const ranks = [];
 
-        ]
+    const rankupEmbed = new MessageBuilder();
 
-        const rankupEmbed = new MessageBuilder()
-
-        if (driver.discord) {
-            await fetch(
-                `https://discord.com/api/guilds/${config.guildID}/members/${driver.discord.id}`, 
-                {
-                    headers: {
-                        Authorization: `Bot ${process.env.botToken}`,
-                        "Content-Type": "application/json"
-                    }
-                }
-            ).then((body) => {
-                return body.json();
-            }).then(async (json) => {
-                const { roles } = json;
-
-                const rank = ranks.find((f) => driverpoints > f.min && driverpoints <= f.max);
-                const otherRank = ranks.filter((f) => f.role != rank.role);
-
-                if (rank && !roles.includes(rank.role)) {
-                    rankupEmbed.setColor('BLURPLE')
-                    rankupEmbed.setDescription(
-                        `Congratulations ${driver.username}! You have been promoted to ${rank.name}!`
-                    )
-
-                    await userSchema.findOneAndUpdate(
-                        { userID: userID },
-                        {
-                            rank: rank.rank
-                        }
-                    )
-
-                    roleadd(driver.discord.id, rank.role);
-
-                    otherRank.forEach((r) => {
-                        roleremove(driver.discord.id, r.role)
-                    })
-                }
-
-                await fetch(
-                    `https://discord.com/api/channels/${process.env.rankUpChannel}/messages`, 
-                    {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            embeds: [rankupEmbed]
-                        }),
-                        headers: {
-                            Authorization: `Bot ${process.env.botToken}`,
-                            "Content-Type": "application/json"
-                        }
-                    }
-                ).catch((err) => {})
-            }).catch((err) => {})
+    if (driver.discord) {
+      await fetch(
+        `https://discord.com/api/guilds/${config.guildID}/members/${driver.discord.id}`,
+        {
+          headers: {
+            Authorization: `Bot ${process.env.botToken}`,
+            "Content-Type": "application/json",
+          },
         }
+      )
+        .then((body) => {
+          return body.json();
+        })
+        .then(async (json) => {
+          const { roles } = json;
+
+          const rank = ranks.find(
+            (f) => driverpoints > f.min && driverpoints <= f.max
+          );
+          const otherRank = ranks.filter((f) => f.role != rank.role);
+
+          if (rank && !roles.includes(rank.role)) {
+            rankupEmbed.setColor("BLURPLE");
+            rankupEmbed.setDescription(
+              `Congratulations ${driver.username}! You have been promoted to ${rank.name}!`
+            );
+
+            await userSchema.findOneAndUpdate(
+              { userID: userID },
+              {
+                rank: rank.rank,
+              }
+            );
+
+            roleadd(driver.discord.id, rank.role);
+
+            otherRank.forEach((r) => {
+              roleremove(driver.discord.id, r.role);
+            });
+          }
+
+          await fetch(
+            `https://discord.com/api/channels/${process.env.rankUpChannel}/messages`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                embeds: [rankupEmbed],
+              }),
+              headers: {
+                Authorization: `Bot ${process.env.botToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          ).catch((err) => {});
+        })
+        .catch((err) => {});
     }
+  }
 }
 
 function roleadd(user, id) {
-    fetch(
-      `https://discord.com/api/guilds/${process.env.guildID}/members/${user}/roles/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          authorization: `Bot ${process.env.botToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
-  }
-  
-  function roleremove(user, id) {
-    fetch(
-      `https://discord.com/api/guilds/${process.env.guildID}/members/${user}/roles/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          authorization: `Bot ${process.env.botToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    ).catch((err) => {
-      console.log(err);
-    });
-  }
+  fetch(
+    `https://discord.com/api/guilds/${process.env.guildID}/members/${user}/roles/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        authorization: `Bot ${process.env.botToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  ).catch((err) => {
+    console.log(err);
+  });
+}
+
+function roleremove(user, id) {
+  fetch(
+    `https://discord.com/api/guilds/${process.env.guildID}/members/${user}/roles/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        authorization: `Bot ${process.env.botToken}`,
+        "Content-Type": "application/json",
+      },
+    }
+  ).catch((err) => {
+    console.log(err);
+  });
+}
 
 module.exports = router;
