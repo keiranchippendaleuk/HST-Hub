@@ -28,123 +28,139 @@
   <style>
     body {
       font-family: "DM Sans", sans-serif;
+      
+    }
+    section {
+      min-height: 100vh
     }
   </style>
   <body style="background-color:#222222">
 
     <!-- Navbar -->
 
-    <div class="navbar" style="background-color: #111111">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <label tabindex="0" class="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+    <section>
+      <div class="navbar" style="background-color: #111111">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <label tabindex="0" class="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </label>
+            <ul
+              tabindex="0"
+              class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 text-white"
+              style="background-color: #111111"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </label>
-          <ul
-            tabindex="0"
-            class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 text-white"
-            style="background-color: #111111"
-          >
-          <li><a class="rounded-lg" href="/">Dashboard</a></li>
-          <li><a class="rounded-lg" href="/roster">Members</a></li>
-          <li><a class="rounded-lg" href="/jobs">Jobs</a></li>
+            <li><a class="rounded-lg" href="/">Dashboard</a></li>
+            <li><a class="rounded-lg" href="/roster">Members</a></li>
+            <li><a class="rounded-lg" href="/jobs">Jobs</a></li>
+            </ul>
+          </div>
+          <a class="normal-case text-xl font-semibold ml-3 text-white">HighSpeed</a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 text-white">
+            <li><a class="rounded-lg" href="/">Dashboard</a></li>
+            <li><a class="rounded-lg" href="/roster">Members</a></li>
+            <li><a class="rounded-lg" href="/jobs">Jobs</a></li>
           </ul>
         </div>
-        <a class="normal-case text-xl font-semibold ml-3 text-white">HighSpeed</a>
-      </div>
-      <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1 text-white">
-          <li><a class="rounded-lg" href="/">Dashboard</a></li>
-          <li><a class="rounded-lg" href="/roster">Members</a></li>
-          <li><a class="rounded-lg" href="/jobs">Jobs</a></li>
-        </ul>
-      </div>
-      <div class="navbar-end">
-        <div class="dropdown dropdown-end">
-          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-            <div class="w-10 rounded-full">
-              <img src="<%= user.avatar %>" />
-            </div>
-          </label>
-          <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box text-center" style="background-color:#111111;width: 150px">
-            <li><a href="/profile/<%= user.userID %>">Profile</a></li>
-            <li><a>Settings</a></li>
-            <% if (user.admin == true) { %>
-              <li><a>Admin</a></li>
-            <% } %>
-            <li><a href="/logout">Logout</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Driver List -->
-    <div class="hero">
-        <div class="hero-content text-center text-neutral-content mt-8 mb-8">
-          <div class="max-w-md p-8">
-              <h1 class="text-5xl font-bold text-white">Roster</h1>
+        <div class="navbar-end">
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img src="<%= user.avatar %>" />
+              </div>
+            </label>
+            <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box text-center" style="background-color:#111111;width: 150px">
+              <li><a href="/profile/<%= user.userID %>">Profile</a></li>
+              <li><a>Settings</a></li>
+              <% if (user.admin == true) { %>
+                <li><a>Admin</a></li>
+              <% } %>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
           </div>
         </div>
-    </div>
-
-      <div class="flex flex-wrap justify-center pb-8">
-        <div class="overflow-x-auto relative shadow-md sm:rounded-lg pb-1" style="background-color:#111111">
-            <table id="job-table" class="text-sm text-left text-gray-500 dark:text-gray-400 md:w-1/2" style="width: 1000px;">
-                <thead class="text-xs text-white uppercase" style="background-color:#111111">
-                    <tr>
-                        <th scope="col" class="py-3 px-6">
-                            #
-                        </th>
-                        <th scope="col" class="py-3 px-6">
-                            Username
-                        </th>
-                        <th scope="col" class="py-3 px-6">
-                            Rank
-                        </th>
-                        <th scope="col" class="py-3 px-6">
-                            Staff?
-                        </th>
-                        <th scope="col" class="py-3 px-6">
-                            Profile
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <% for(var i = 0; i < members.length; i++) { %>
-                        <tr style="background-color:#111111">
-                            <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
-                                <%= members[i].userID %>
-                            </th>
-                            <th class="py-4 px-6 font-medium text-white">
-                              <%= members[i].username %>
-                            </th>
-                            <th class="py-4 px-6 font-medium text-white">
-                              <%= members[i].role %>
-                            </th>
-                            <th class="py-4 px-6 font-medium text-white">
-                              <%= String(members[i].staff).replace('false', 'No').replace('true', 'Yes') %>
-                            </th>
-                            <th class="py-4 px-6 font-medium text-white">
-                                <a href="/profile/<%= members[i].userID %>">View</a>
-                            </th>
-                        </tr>
-                    <% } %>
-                </tbody>
-            </table>
+      </div>
+  
+      <!-- Driver List -->
+      <div class="hero">
+          <div class="hero-content text-center text-neutral-content mt-8 mb-8">
+            <div class="max-w-md p-8">
+                <h1 class="text-5xl font-bold text-white">Roster</h1>
+            </div>
+          </div>
+      </div>
+  
+        <div class="flex flex-wrap justify-center pb-8">
+          <div class="overflow-x-auto relative shadow-md sm:rounded-lg pb-1" style="background-color:#111111">
+              <table id="job-table" class="text-sm text-left text-gray-500 dark:text-gray-400 md:w-1/2" style="width: 1000px;">
+                  <thead class="text-xs text-white uppercase" style="background-color:#111111">
+                      <tr>
+                          <th scope="col" class="py-3 px-6">
+                              #
+                          </th>
+                          <th scope="col" class="py-3 px-6">
+                              Username
+                          </th>
+                          <th scope="col" class="py-3 px-6">
+                              Rank
+                          </th>
+                          <th scope="col" class="py-3 px-6">
+                              Staff?
+                          </th>
+                          <th scope="col" class="py-3 px-6">
+                              Profile
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i = 0; i < members.length; i++) { %>
+                          <tr style="background-color:#111111">
+                              <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
+                                  <%= members[i].userID %>
+                              </th>
+                              <th class="py-4 px-6 font-medium text-white">
+                                <%= members[i].username %>
+                              </th>
+                              <th class="py-4 px-6 font-medium text-white">
+                                <%= members[i].role %>
+                              </th>
+                              <th class="py-4 px-6 font-medium text-white">
+                                <%= String(members[i].staff).replace('false', 'No').replace('true', 'Yes') %>
+                              </th>
+                              <th class="py-4 px-6 font-medium text-white">
+                                  <a href="/profile/<%= members[i].userID %>">View</a>
+                              </th>
+                          </tr>
+                      <% } %>
+                  </tbody>
+              </table>
+          </div>
         </div>
+          
+  
+        <br />
+    <br />
+    </section>
+
+<footer class="p-4 sticky shadow md:flex md:p-6 justify-center mt-auto" style="background-color: #111111">
+  <span class="text-sm text-white text-center">© 2023 <a href="https://highspeedtrucking.ca/" class="hover:underline">HighSpeedTrucking</a>. All Rights Reserved.
+  </span>
+</footer>
 
         <script>
             let table = new DataTable('#job-table', {
@@ -155,5 +171,7 @@
                 select: false
             })
         </script>
+
+        
   </body>
 </html>
