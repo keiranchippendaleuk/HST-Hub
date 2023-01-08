@@ -123,24 +123,25 @@
                     </tr>
                 </thead>
                 <tbody>
-  
+                  <% for(var i = 0; i < members.length; i++) { %>
                         <tr style="background-color:#111111">
                             <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
-                                1
+                                <%= members[i].userID %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                FemmyLavender
+                              <%= members[i].username %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                Driver
+                              <%= members[i].role %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                Yes
+                              <%= String(members[i].staff).replace('false', 'No').replace('true', 'Yes') %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                <a href="/profile/1">View</a>
+                                <a href="/profile/<%= members[i].userID %>">View</a>
                             </th>
                         </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>

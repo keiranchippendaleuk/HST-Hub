@@ -126,27 +126,28 @@
                     </tr>
                 </thead>
                 <tbody>
-  
+                  <% for(var i = 0; i < jobs.length; i++) { %>
                         <tr style="background-color:#111111">
                             <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
-                                1/8/2023
+                                <%= jobs[i].submittedDate %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                FemmyLavender
+                                <%= jobs[i].driver.username %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                Calais - Duisburg
+                                <%= jobs[i].source_city %> - <%= jobs[i].destination_city %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                Gummy Bears
+                              <%= jobs[i].cargo.name %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                522km
+                              <%= jobs[i].driven_distance %> km
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                                <a href="/jobs/1">View</a>
+                                <a href="/jobs/<%= jobs[i].id %>">View</a>
                             </th>
                         </tr>
+                  <% } %>
                 </tbody>
             </table>
         </div>

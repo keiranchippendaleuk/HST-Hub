@@ -23,7 +23,11 @@ router.get('/roster', async (req, res, next) => {
     if (req.isAuthenticated()) {
         const { user } = req;
         const userData = await userSchema.findOne({ userID: user }) || false;
-        const members = await userSchema.find().sort({'userID': -1}) || false;
+        const members = await userSchema.find() || false;
+
+        members.sort((a, b) => {
+            return b.points - a.points
+        })
 
 
         res.render('roster.ejs', {

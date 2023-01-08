@@ -57,7 +57,7 @@ router.post("/jobs/delivered", async (req, res, next) => {
           driver: {
             id: job.driver.userID,
             steam_id: job.driver.steamID,
-            username: job.driver.username,
+            username: driver.username,
             userID: driver.userID
           },
           planned_distance: job.plannedDistance,
@@ -80,6 +80,7 @@ router.post("/jobs/delivered", async (req, res, next) => {
         const hook = new Webhook(process.env.jobwebhook);
 
         const DeliveryEmbed = new MessageBuilder()
+          .setAuthor(driver.username, driver.avatar)
           .setTitle(`Job Submitted - #${job.jobID}`)
           .setLink(`https://hub.highspeedtrucking.ca/jobs/${job.jobID}`)
           .addField("From", `${job.source.city.name}`, true)
