@@ -168,7 +168,7 @@ async function addUser(steamID, username, email, password) {
             username: username,
             email: email.toLowerCase(),
             steamID: steamID,
-            userID: 1,
+            userID: currentID,
             jobs: 0,
             role: "Driver",
             avatar: avatar,
