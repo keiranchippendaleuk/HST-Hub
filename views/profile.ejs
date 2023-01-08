@@ -187,25 +187,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <% for(var i = 0; i < driverJobs.length; i++) { %>
+                  <% for(var i = 0; i < jobs.length; i++) { %>
                         <tr style="background-color:#111111">
                             <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
-                                <%= driverJobs[i].id %>
+                                <%= jobs[i].id %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                              <%= driverJobs[i].source_city.name %> - <%= driverJobs[i].destination_city.name %>
+                              <%= jobs[i].source_city.name %> - <%= jobs[i].destination_city.name %>
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                              <%= driverJobs[i].driven_distance %> km
+                              <%= jobs[i].driven_distance %> km
                             </th>
                             <th class="py-4 px-6 font-medium text-white">
-                              <%= driverJobs[i].cargo.name %>
+                              <%= jobs[i].cargo.name %>
                             </th>
                             <!-- <th class="py-4 px-6 font-medium text-white">
                               
                             </th> -->
                             <th class="py-4 px-6 font-medium text-white">
-                                <a href="/jobs/<%= driverJobs[i].id %>">View</a>
+                                <a href="/jobs/<%= jobs[i].id %>">View</a>
                             </th>
                         </tr>
                   <% } %>

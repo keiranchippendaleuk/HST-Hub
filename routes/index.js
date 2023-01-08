@@ -8,11 +8,28 @@ router.get('/', async (req, res, next) => {
         const userData = await userSchema.findOne({ userID: user }) || false;
         const driverCount = await userSchema.countDocuments() || 0;
         const jobs = await jobSchema.find().sort({'_id': -1}).limit(15) || [];
+    
+
+        const stats = {
+            income: 0,
+            drivers: driverCount,
+            jobs: jobs.length,
+        }
+
+
+        jobs.forEach((j) => {
+            const deliveredEvent = j.events.find(f => f.type == "delivered") || false;
+            const income = deliveredEvent.revenue
+
+            stats.income += Math.round(income)
+        })
+
+        
 
         res.render('index.ejs', {
             user: userData,
             jobs,
-            driverCount
+            stats: stats
         })
     } else {
         res.redirect('/login')
@@ -62,6 +79,8 @@ router.get('/profile/:user', async (req, res, next) => {
         
         const driver = await userSchema.findOne({ userID: req.params.user }) || false;
         const driverJoined = new Date(driver.joined).toLocaleDateString('en-US')
+
+
 
         if (driver) {
             res.render('profile.ejs', {

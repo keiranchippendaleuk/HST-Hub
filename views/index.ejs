@@ -94,7 +94,8 @@
       <div class="hero-overlay"></div>
       <div class="hero-content text-center text-neutral-content mt-8 mb-8">
         <div class="max-w-md p-8">
-            <h1 class="text-5xl font-bold text-white">Welcome back, <%= user.username %>!</h1>
+            <h1 class="text-5xl font-bold text-white">Welcome back,</h1>
+            <h1 class="text-5xl font-bold text-white text-center"><%= user.username %>!</h1>
         </div>
       </div>
     </div>
@@ -109,7 +110,7 @@
         <div class="card w-60" style="background-color: #111111">
           <div class="card-body">
             <div class="text-center">
-              <h1 class="text-2xl text-white text-semibold">0</h1>
+              <h1 class="text-2xl text-white text-semibold"><%= stats.jobs %></h1>
               <h1 class="text-xl text-white text-semibold">Total Deliveries</h1>
             </div>
           </div>
@@ -119,7 +120,7 @@
         <div class="card w-60" style="background-color: #111111">
           <div class="card-body">
             <div class="text-center">
-              <h1 class="text-2xl text-white text-semibold"><%= driverCount %></h1>
+              <h1 class="text-2xl text-white text-semibold"><%= stats.drivers %></h1>
               <h1 class="text-xl text-white text-semibold">Total Drivers</h1>
             </div>
           </div>
@@ -129,7 +130,7 @@
         <div class="card w-60" style="background-color: #111111">
           <div class="card-body">
             <div class="text-center">
-              <h1 class="text-2xl text-white text-semibold">€ 0</h1>
+              <h1 class="text-2xl text-white text-semibold">€ <%= stats.income %></h1>
               <h1 class="text-xl text-white text-semibold">Total Revenue</h1>
             </div>
           </div>
@@ -158,25 +159,31 @@
                       <th scope="col" class="py-3 px-6">
                           Distance
                       </th>
+                      <th scope="col" class="py-3 px-6">
+                        View
+                    </th>
                   </tr>
               </thead>
               <tbody>
-
+                <% for(var i = 0; i < jobs.length; i++) { %>
                       <tr style="background-color:#111111">
                           <th scope="row" class="py-4 px-6 font-medium whitespace-nowrap text-white">
-                              1
+                              <%= jobs[i].id %>
                           </th>
                           <th class="py-4 px-6 font-medium text-white">
-                              LavenderFolfy
+                            <a href="/profile/<%= jobs[i].driver.userID %>"><%= jobs[i].driver.username %></a>
                           </th>
                           <th class="py-4 px-6 font-medium text-white">
-                              Calais - Duisburg
+                            <%= jobs[i].source_city.name %> - <%= jobs[i].destination_city.name %>
                           </th>
                           <th class="py-4 px-6 font-medium text-white">
-                              522 km
+                            <%= jobs[i].driven_distance %> km
+                          </th>
+                          <th class="py-4 px-6 font-medium text-white">
+                            <a href="/jobs/<%= jobs[i].id %>">Details</a>
                           </th>
                       </tr>
-   
+                <% } %>
               </tbody>
           </table>
       </div>
