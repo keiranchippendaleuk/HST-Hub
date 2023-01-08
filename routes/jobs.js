@@ -73,7 +73,9 @@ router.post("/jobs/delivered", async (req, res, next) => {
           truck: job.truck,
           events: job.events,
           points: points,
-        })
+        }).save()
+
+
 
         // checkDriverRank(driver.userID)
 
