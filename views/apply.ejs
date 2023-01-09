@@ -93,16 +93,6 @@
               id="discord"
               style="background-color: #141a24; border-color: #141a24"
             />
-            <textarea
-              placeholder="Why do you want to join HST?"
-              class="form-control rounded-lg w-80"
-              id="q1"
-              style="
-                background-color: #141a24;
-                border-color: #141a24;
-                height: 150px;
-              "
-            ></textarea>
             <button
               type="submit"
               class="w-full text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -122,12 +112,12 @@
       }
 
       $("#submit-button").click(() => {
+        $('#submit-button').prop('disabled', true)
         const username = $("#username").val();
         const password = $("#password").val();
         const email = $("#email").val();
         const steam = $("#steam").val();
         const discord = $("#discord").val();
-        const question = $("#q1").val();
 
         console.log("You clicked me!");
 
@@ -138,8 +128,12 @@
             icon: "error",
             background: "#1d2732",
           });
+
+          $('#submit-button').prop('disabled', false)
           return;
         }
+
+
 
         const data = {
           username: username,
@@ -147,7 +141,6 @@
           steam: steam,
           email: email,
           discord: discord,
-          question: question,
         };
 
         $.ajax({

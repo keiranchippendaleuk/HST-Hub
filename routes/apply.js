@@ -116,11 +116,13 @@ router.get(
 );
 
 router.get("/error", (req, res, next) => {
-  res.render("error.ejs");
+  res.status(200).json({ error: 'Your steam ID is already linked to a account.' })
 });
 
 async function addUser(steamID, username, email, password) {
-  addTrackerUser(steamID);
+  addTrackerUser(steamID).catch(() => {
+    return;
+  })
 
   const avatar = "https://i.imgur.com/820FceD.png";
 
@@ -212,6 +214,8 @@ function addTrackerUser(id) {
       if (json.error) {
         console.log(json);
       }
+
+      return;
     })
     .catch((err) => {
       console.log(err);
