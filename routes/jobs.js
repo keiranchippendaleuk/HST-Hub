@@ -80,24 +80,30 @@ router.post("/jobs/delivered", async (req, res, next) => {
 
         // checkDriverRank(driver.userID)
 
-        const hook = new Webhook(
-          `https://discord.com/api/webhooks/1057193833592524870/-V5YfQoprtlMNz6c4bl03mJQvkFWyzERe4llgjGSv1RoO1pdDxF-c_524HNAscMsnEh_`
-        );
+        try {
+          const hook = new Webhook(
+            `https://discord.com/api/webhooks/1057193833592524870/-V5YfQoprtlMNz6c4bl03mJQvkFWyzERe4llgjGSv1RoO1pdDxF-c_524HNAscMsnEh_`
+          );
 
-        const DeliveryEmbed = new MessageBuilder()
-          .setTitle(`Job Submitted - #${job.jobID}`)
-          .setLink(`https://hub.highspeedtrucking.ca/jobs/${job.jobID}`)
-          .addField("From", `${job.source.city.name}`, true)
-          .addField("To", `${job.destination.city.name}`, true)
-          .addField(
-            "Details",
-            `Distance: ${distance} km\nPoints: ${points}\nSource Company: ${job.source.company.name}\nDestination Company: ${job.destination.company.name}`
-          )
-          .setThumbnail(`https://i.imgur.com/820FceD.png`);
+          const DeliveryEmbed = new MessageBuilder()
+            .setAuthor(`${driver.username}`, `${driver.avatar}`)
+            .setTitle(`Job Submitted - #${job.jobID}`)
+            .setLink(`https://hub.highspeedtrucking.ca/jobs/${job.jobID}`)
+            .addField("From", `${job.source.city.name}`, true)
+            .addField("To", `${job.destination.city.name}`, true)
+            .addField(
+              "Details",
+              `Distance: ${distance} km\nPoints: ${points}\nSource Company: ${job.source.company.name}\nDestination Company: ${job.destination.company.name}`
+            )
+            .setThumbnail(`https://i.imgur.com/820FceD.png`);
 
-        hook.setUsername(`HST Job Logger`);
-        hook.setAvatar("https://i.imgur.com/820FceD.png");
-        hook.send(DeliveryEmbed);
+          hook.setUsername(`HST Job Logger`);
+          hook.setAvatar("https://i.imgur.com/820FceD.png");
+          hook.send(DeliveryEmbed);
+        } catch (err) {
+          console.log(err);
+          return res.sendStatus(500);
+        }
 
         res.sendStatus(200);
       } else {
