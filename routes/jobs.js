@@ -95,7 +95,7 @@ router.post("/jobs/delivered", async (req, res, next) => {
               "Details",
               `Distance: ${distance} km\nPoints: ${points}\nSource Company: ${job.source.company.name}\nDestination Company: ${job.destination.company.name}`
             )
-            .setThumbnail(`https://i.imgur.com/820FceD.png`);
+            .setColor('#2f3136')
 
           hook.setUsername(`HST Job Logger`);
           hook.setAvatar("https://i.imgur.com/820FceD.png");
