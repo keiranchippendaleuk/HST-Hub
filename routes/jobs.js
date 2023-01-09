@@ -88,7 +88,7 @@ router.post("/jobs/delivered", async (req, res, next) => {
           const DeliveryEmbed = new MessageBuilder()
             .setAuthor(`${driver.username}`, `${driver.avatar}`)
             .setTitle(`Job Submitted - #${job.jobID}`)
-            .setLink(`https://hub.highspeedtrucking.ca/jobs/${job.jobID}`)
+            .setURL(`https://hub.highspeedtrucking.ca/jobs/${job.jobID}`)
             .addField("From", `${job.source.city.name}`, true)
             .addField("To", `${job.destination.city.name}`, true)
             .addField(
