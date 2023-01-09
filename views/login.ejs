@@ -99,6 +99,7 @@
     <script src="/js/login.js" type="text/javascript"></script>
     <script>
       $("#submit-button").click(function () {
+        $('#submit-button').prop('disabled', true)
         const email = $("#email").val();
         const password = $("#password").val();
         // let ischecked = false;
@@ -137,6 +138,9 @@
                 icon: 'error',
                 background: "#1d2732",
             })
+
+            $('#submit-button').prop('disabled', false)
+            return;
         }).done(() => {
             window.location.href = '/'
         })
