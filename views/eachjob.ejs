@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HST - Job #<%= job.id %></title>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+      type="text/javascript"
+    ></script>
+    <link href="/css/tailwind.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/flowbite@1.5.5/dist/flowbite.min.css"
+    />
+    <script src="https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js"></script>
+    <link href="https://fonts.cdnfonts.com/css/dm-sans" rel="stylesheet" />
+  </head>
+  <style>
+    body {
+      font-family: "DM Sans", sans-serif;
+    }
+    section {
+      min-height: 100vh;
+    }
+  </style>
+  <body style="background-color:#222222">
+
+    <!-- Navbar -->
+
+    <section>
+      <div class="navbar" style="background-color: #111111">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <label tabindex="0" class="btn btn-ghost lg:hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h8m-8 6h16"
+                />
+              </svg>
+            </label>
+            <ul
+              tabindex="0"
+              class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 text-white"
+              style="background-color: #111111"
+            >
+            <li><a class="rounded-lg" href="#">Dashboard</a></li>
+            <li><a class="rounded-lg" href="/roster">Members</a></li>
+            <li><a class="rounded-lg" href="/jobs">Jobs</a></li>
+            </ul>
+          </div>
+          <a class="normal-case text-xl font-semibold ml-3 text-white">HighSpeed</a>
+        </div>
+        <div class="navbar-center hidden lg:flex">
+          <ul class="menu menu-horizontal px-1 text-white">
+            <li><a class="rounded-lg" href="#">Dashboard</a></li>
+            <li><a class="rounded-lg" href="/roster">Members</a></li>
+            <li><a class="rounded-lg" href="/jobs">Jobs</a></li>
+          </ul>
+        </div>
+        <div class="navbar-end">
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img src="<%= user.avatar %>" />
+              </div>
+            </label>
+            <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box text-center" style="background-color:#111111;width: 150px">
+              <li><a href="/profile/<%= user.userID %>">Profile</a></li>
+              <li><a>Settings</a></li>
+              <% if (user.admin == true) { %>
+                <li><a>Admin</a></li>
+              <% } %>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <div class="flex flex-wrap mt-8 mb-8 justify-center">
+        <h1 class="text-4xl text-white text-bold text-center"><strong>Job #<%= job.id %></strong></h1>
+      </div>
+      <div class="flex flex-wrap justify-center mt-8 mb-8 gap-2">
+        <div class="card" style="background-color: #111111">
+            <div class="card-body">
+              <p class="text-center text-white text-xl">Submitted on:</p>
+              <h2 class="text-center text-white text-2xl font-bold"><%= job.submittedDate %></h2>  
+            </div>
+        </div>
+        <div class="card" style="background-color: #111111">
+            <div class="card-body">
+              <p class="text-center text-white text-xl">Distance:</p>
+              <h2 class="text-center text-white text-2xl font-bold"><%= job.driven_distance %> km</h2>  
+            </div>
+        </div>
+        <div class="card" style="background-color: #111111">
+            <div class="card-body">
+                <p class="text-center text-white text-xl">Truck:</p>
+                <h2 class="text-center text-white text-2xl font-bold"><%= job.truck.name %> <%= job.truck.model.name %></h2>
+            </div>
+        </div>
+        <div class="card" style="background-color: #111111">
+            <div class="card-body">
+                <p class="text-center text-white text-xl">Fuel Used:</p>
+                <h2 class="text-center text-white text-2xl font-bold"><%= job.fuel_used %> L</h2>
+            </div>
+        </div>
+        
+      </div>
+      <div class="flex flex-wrap justify-center mt-8 mb-8 gap-2">
+        
+                <div class="card" style="background-color: #111111">
+                    <div class="card-body">
+                        <p class="text-center text-white text-xl">Cargo:</p>
+                        <h2 class="text-center text-white text-2xl font-bold"><%= job.cargo.name %></h2>
+                    </div>
+                </div>
+                <div class="card" style="background-color: #111111">
+                    <div class="card-body">
+                        <p class="text-center text-white text-xl">Points Earned:</p>
+                        <h2 class="text-center text-white text-2xl font-bold"><%= job.points %></h2>
+                    </div>
+                </div>
+           
+      </div>
+      <div class="flex flex-wrap mt-8 mb-2 justify-center">
+        <h1 class="text-4xl text-white text-bold text-center"><strong>Events</strong></h1>
+        
+      </div>
+      <div class="flex flex-wrap mt-2 mb-8 justify-center">
+        <h1 class="text-xl text-white text-bold text-center"><strong>Soon..</strong></h1>
+        
+      </div>
+      
+  
+    <br />
+    <br />
+    </section>
+
+<footer class="p-4 sticky shadow md:flex md:p-6 justify-center mt-auto" style="background-color: #111111">
+  <span class="text-sm text-white text-center">© 2023 <a href="https://highspeedtrucking.ca/" class="hover:underline">HighSpeedTrucking</a>. All Rights Reserved.
+  </span>
+</footer>
+
+  </body>
+</html>

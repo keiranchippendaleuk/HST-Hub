@@ -15,6 +15,7 @@ const schema = new mongoose.Schema({
     staff: Boolean,
     admin: Boolean,
     joined: String,
+    resetString: String,
     discord: Object
 })
 

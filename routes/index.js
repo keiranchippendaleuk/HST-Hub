@@ -71,6 +71,24 @@ router.get('/jobs', async (req, res, next) => {
     }
 })
 
+router.get('/jobs/:id', async (req, res, next) => {
+    if (req.isAuthenticated()) {
+        const { user } = req;
+        const userData = await userSchema.findOne({ userID: user }) || false;
+
+        const job = await jobSchema.findOne({ id: req.params.id }) || false;
+
+        if (job) {
+            res.render('eachjob.ejs', {
+                job,
+                user: userData
+            })
+        }
+    } else {
+        res.redirect('/login')
+    }
+})
+
 router.get('/profile/:user', async (req, res, next) => {
     if (req.isAuthenticated()) {
         const { user } = req;
@@ -90,9 +108,7 @@ router.get('/profile/:user', async (req, res, next) => {
                 driver: driver
             })
         } else {
-            res.render('404.ejs', {
-                message: 'User not found.'
-            })
+           res.status(400).json({ error: 'Could not find user.'})
         }
     } else {
         res.redirect('/login')
