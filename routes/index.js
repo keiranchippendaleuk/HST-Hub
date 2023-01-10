@@ -8,6 +8,7 @@ router.get('/', async (req, res, next) => {
         const userData = await userSchema.findOne({ userID: user }) || false;
         const driverCount = await userSchema.countDocuments() || 0;
         const jobs = await jobSchema.find().sort({'_id': -1}).limit(15) || [];
+        const jobCount = await jobSchema.countDocuments() || 0;
     
 
         const stats = {
@@ -29,7 +30,8 @@ router.get('/', async (req, res, next) => {
         res.render('index.ejs', {
             user: userData,
             jobs,
-            stats: stats
+            stats: stats,
+            jobCount
         })
     } else {
         res.redirect('/login')
