@@ -95,7 +95,7 @@ router.get('/profile/:user', async (req, res, next) => {
     if (req.isAuthenticated()) {
         const { user } = req;
         const userData = await userSchema.findOne({ userID: user }) || false;
-        const driverJobs = await jobSchema.find({ 'driver.userID': req.params.user }) || [];
+        const driverJobs = await jobSchema.find({ 'driver.userID': req.params.user }).sort({'_id': -1}) || [];
         
         const driver = await userSchema.findOne({ userID: req.params.user }) || false;
         const driverJoined = new Date(driver.joined).toLocaleDateString('en-US')
