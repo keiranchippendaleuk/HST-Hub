@@ -82,7 +82,7 @@ router.post("/jobs/delivered", async (req, res, next) => {
 
         try {
           const hook = new Webhook(
-            `https://discord.com/api/webhooks/1057193833592524870/-V5YfQoprtlMNz6c4bl03mJQvkFWyzERe4llgjGSv1RoO1pdDxF-c_524HNAscMsnEh_`
+            process.env.webhookURL
           );
 
           const DeliveryEmbed = new MessageBuilder()
