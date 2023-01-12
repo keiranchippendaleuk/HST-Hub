@@ -120,9 +120,7 @@ router.get("/error", (req, res, next) => {
 });
 
 async function addUser(steamID, username, email, password) {
-  addTrackerUser(steamID).catch(() => {
-    return;
-  })
+  addTrackerUser(steamID)
 
   const avatar = "https://i.imgur.com/820FceD.png";
 
@@ -214,8 +212,6 @@ function addTrackerUser(id) {
       if (json.error) {
         console.log(json);
       }
-
-      return;
     })
     .catch((err) => {
       console.log(err);

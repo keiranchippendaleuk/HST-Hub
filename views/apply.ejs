@@ -86,13 +86,6 @@
               value="<%= user.id %>"
               style="background-color: #141a24; border-color: #141a24"
             />
-            <input
-              type="text"
-              placeholder="Discord ID"
-              class="form-control rounded-lg w-80"
-              id="discord"
-              style="background-color: #141a24; border-color: #141a24"
-            />
             <button
               type="submit"
               class="w-full text-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -112,16 +105,14 @@
       }
 
       $("#submit-button").click(() => {
-        $('#submit-button').prop('disabled', true)
         const username = $("#username").val();
         const password = $("#password").val();
         const email = $("#email").val();
         const steam = $("#steam").val();
-        const discord = $("#discord").val();
 
         console.log("You clicked me!");
 
-        if (username == "" || discord == "" || question == "" || email == "") {
+        if (username == "" || password == "" || email == "") {
           Swal.fire({
             title: "Error!",
             text: "Please fill out all fields!",
@@ -129,7 +120,6 @@
             background: "#1d2732",
           });
 
-          $('#submit-button').prop('disabled', false)
           return;
         }
 
@@ -140,7 +130,6 @@
           password: password,
           steam: steam,
           email: email,
-          discord: discord,
         };
 
         $.ajax({
