@@ -98,10 +98,11 @@ router.get('/profile/:user', async (req, res, next) => {
         const driverJobs = await jobSchema.find({ 'driver.userID': req.params.user }).sort({'_id': -1}) || [];
         
         const driver = await userSchema.findOne({ userID: req.params.user }) || false;
-        const driverJoined = new Date(driver.joined).toLocaleDateString('en-US')
-
-
-
+        const driverJoined = new Date(driver.joined).toLocaleDateString(
+            "en-US",
+            { timeZone: "America/Toronto" }
+        )
+        
         if (driver) {
             res.render('profile.ejs', {
                 user: userData,
